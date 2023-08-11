@@ -5,4 +5,3 @@ export '/pages/machine_down_dip/machine_down_dip_widget.dart'
     show MachineDownDipWidget;
 export '/pages/allatm/allatm_widget.dart' show AllatmWidget;
 export '/pages/a_t_mdetails/a_t_mdetails_widget.dart' show ATMdetailsWidget;
-export '/pages/test/test_widget.dart' show TestWidget;

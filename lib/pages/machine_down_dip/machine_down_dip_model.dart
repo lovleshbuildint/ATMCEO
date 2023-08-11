@@ -21,6 +21,10 @@ class MachineDownDipModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Backend Call - API (TransectionDip)] action in TextField widget.
   ApiCallResponse? tdresponse;
+  // State field(s) for TabBar widget.
+  TabController? tabBarController;
+  int get tabBarCurrentIndex =>
+      tabBarController != null ? tabBarController!.index : 0;
 
   /// Initialization and disposal methods.
 
@@ -34,6 +38,7 @@ class MachineDownDipModel extends FlutterFlowModel {
   void dispose() {
     unfocusNode.dispose();
     textController?.dispose();
+    tabBarController?.dispose();
   }
 
   /// Action blocks are added here.

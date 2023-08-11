@@ -155,7 +155,13 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   context.goNamed(
-                                                    'MainScreen',
+                                                    'Allatm',
+                                                    queryParameters: {
+                                                      'tabBar': serializeParam(
+                                                        0,
+                                                        ParamType.int,
+                                                      ),
+                                                    }.withoutNulls,
                                                     extra: <String, dynamic>{
                                                       kTransitionInfoKey:
                                                           TransitionInfo(
@@ -532,7 +538,7 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                                                     'Grade: ${getJsonField(
                                                       stackATMDetailsResponse
                                                           .jsonBody,
-                                                      r'''$.data.category''',
+                                                      r'''$.data.grade''',
                                                     ).toString()}',
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -1397,7 +1403,7 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                           alignment: AlignmentDirectional(0.71, -0.76),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                40.0, 0.0, 15.0, 0.0),
+                                70.0, 0.0, 15.0, 0.0),
                             child: Container(
                               height: MediaQuery.sizeOf(context).height * 0.2,
                               decoration: BoxDecoration(
@@ -1429,40 +1435,12 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  '${getJsonField(
-                                                    latestBankDataItem,
-                                                    r'''$..bankName''',
-                                                  ).toString()} -',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMediumFamily,
-                                                        color: Colors.white,
-                                                        useGoogleFonts: GoogleFonts
-                                                                .asMap()
-                                                            .containsKey(
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily),
-                                                      ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          6.0, 0.0, 0.0, 0.0),
+                                                Flexible(
                                                   child: Text(
                                                     '${getJsonField(
                                                       latestBankDataItem,
-                                                      r'''$..date''',
-                                                    ).toString()},${getJsonField(
-                                                      latestBankDataItem,
-                                                      r'''$..time''',
-                                                    ).toString()}',
+                                                      r'''$..bankName''',
+                                                    ).toString()} -',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -1471,9 +1449,7 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                                                               FlutterFlowTheme.of(
                                                                       context)
                                                                   .bodyMediumFamily,
-                                                          color:
-                                                              Color(0xFFB3B3B3),
-                                                          fontSize: 12.0,
+                                                          color: Colors.white,
                                                           useGoogleFonts: GoogleFonts
                                                                   .asMap()
                                                               .containsKey(
@@ -1481,6 +1457,40 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                                                                           context)
                                                                       .bodyMediumFamily),
                                                         ),
+                                                  ),
+                                                ),
+                                                Flexible(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(6.0, 0.0,
+                                                                0.0, 0.0),
+                                                    child: Text(
+                                                      '${getJsonField(
+                                                        latestBankDataItem,
+                                                        r'''$..date''',
+                                                      ).toString()},${getJsonField(
+                                                        latestBankDataItem,
+                                                        r'''$..time''',
+                                                      ).toString()}',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily,
+                                                                color: Color(
+                                                                    0xFFB3B3B3),
+                                                                fontSize: 12.0,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyMediumFamily),
+                                                              ),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
