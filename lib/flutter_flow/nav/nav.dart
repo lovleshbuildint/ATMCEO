@@ -54,13 +54,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => FrstscreenWidget(),
         ),
         FFRoute(
-          name: 'Machine_Down_Dip',
-          path: '/machineDownDip',
-          builder: (context, params) => MachineDownDipWidget(
-            tabBar: params.getParam('tabBar', ParamType.int),
-          ),
-        ),
-        FFRoute(
           name: 'Allatm',
           path: '/allatm',
           builder: (context, params) => AllatmWidget(
@@ -72,6 +65,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/aTMdetails',
           builder: (context, params) => ATMdetailsWidget(
             atmId: params.getParam('atmId', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'Down_Dip',
+          path: '/downDip',
+          builder: (context, params) => DownDipWidget(
+            tabBar: params.getParam('tabBar', ParamType.int),
           ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),

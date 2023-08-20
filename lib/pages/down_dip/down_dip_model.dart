@@ -8,19 +8,22 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class MachineDownDipModel extends FlutterFlowModel {
+class DownDipModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Backend Call - API (TransectionDip)] action in Down_Dip widget.
+  ApiCallResponse? transactionDipResponse;
+  // Stores action output result for [Backend Call - API (Machine Down)] action in Down_Dip widget.
+  ApiCallResponse? machineDownResponse;
   // State field(s) for TextField widget.
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
-  // Stores action output result for [Backend Call - API (TransectionDip)] action in TextField widget.
-  ApiCallResponse? tdresponse;
   // State field(s) for TabBar widget.
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
@@ -29,8 +32,6 @@ class MachineDownDipModel extends FlutterFlowModel {
   /// Initialization and disposal methods.
 
   void initState(BuildContext context) {
-    dataTableShowLogs = false; // Disables noisy DataTable2 debug statements.
-    dataTableShowLogs = false; // Disables noisy DataTable2 debug statements.
     dataTableShowLogs = false; // Disables noisy DataTable2 debug statements.
     dataTableShowLogs = false; // Disables noisy DataTable2 debug statements.
   }
@@ -42,8 +43,6 @@ class MachineDownDipModel extends FlutterFlowModel {
   }
 
   /// Action blocks are added here.
-
-  Future test(BuildContext context) async {}
 
   /// Additional helper methods are added here.
 }

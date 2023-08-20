@@ -29,17 +29,78 @@ Color? newCustomFunction2(int? transactionTrendInt) {
 dynamic filter(
   dynamic mainData,
   String? searchValue,
+  String? transactionTrendFilter,
 ) {
+  if (searchValue == null || searchValue.isEmpty) {
+    if (transactionTrendFilter != null) {
+      List<dynamic> filteredData1 = [];
+      if (transactionTrendFilter.startsWith('-(') &&
+          transactionTrendFilter.endsWith(')')) {
+        var range = transactionTrendFilter.substring(
+            2, transactionTrendFilter.length - 1);
+        var rangeValues = range.split(' - ');
+        var upperBound =
+            int.tryParse(rangeValues[0].replaceAll('%', '').trim());
+        upperBound = -1 * upperBound!;
+        var lowerBound =
+            int.tryParse(rangeValues[1].replaceAll('%', '').trim());
+        lowerBound = -1 * lowerBound!;
+        for (dynamic data in mainData['data']) {
+          if (data['transactionTrend'] <= lowerBound &&
+              data['transactionTrend'] >= upperBound) {
+            filteredData1.add(data);
+          }
+        }
+        return {'userId': mainData['userId'], 'data': filteredData1};
+      } else if (transactionTrendFilter.startsWith('(') &&
+          transactionTrendFilter.endsWith(')')) {
+        var range = transactionTrendFilter.substring(
+            1, transactionTrendFilter.length - 1);
+        var rangeValues = range.split(' - ');
+        var lowerBound =
+            int.tryParse(rangeValues[0].replaceAll('%', '').trim());
+        var upperBound =
+            int.tryParse(rangeValues[1].replaceAll('%', '').trim());
+        for (dynamic data in mainData['data']) {
+          if (data['transactionTrend'] >= lowerBound &&
+              data['transactionTrend'] <= upperBound) {
+            filteredData1.add(data);
+          }
+        }
+        return {'userId': mainData['userId'], 'data': filteredData1};
+      }
+    } else {
+      return mainData;
+    }
+  }
+
   List<dynamic> filteredData = [];
 
-  if (searchValue != null || searchValue != "") {
-    for (var data in mainData['data']) {
-      if (data['atmId'] == searchValue) {
-        filteredData.add(data);
-      }
+  for (dynamic data in mainData['data']) {
+    if (data['atmId'].contains(searchValue)) {
+      filteredData.add(data);
     }
-    return {'data': searchValue};
-  } else if (mainData != null && (searchValue == null || searchValue == "")) {
-    return {mainData};
   }
+
+  return {'userId': mainData['userId'], 'data': filteredData};
+}
+
+dynamic searchFilter(
+  dynamic mainData,
+  String? searchValue,
+) {
+  // {"userId":"bhu","data":[{"atmId":"DP","r":"1"},{"atmId":"MPZ","r":"1"}]} search atmID
+  if (searchValue == null || searchValue.isEmpty) {
+    return mainData;
+  }
+
+  List<dynamic> filteredData = [];
+
+  for (dynamic data in mainData['data']) {
+    if (data['atmId'].contains(searchValue)) {
+      filteredData.add(data);
+    }
+  }
+
+  return {'userId': mainData['userId'], 'data': filteredData};
 }

@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static final FFAppState _instance = FFAppState._internal();
@@ -56,44 +57,127 @@ class FFAppState extends ChangeNotifier {
           await secureStorage.getBool('ff_targetIncState') ?? _targetIncState;
     });
     await _safeInitAsync(() async {
-      _filter1 = await secureStorage.getBool('ff_filter1') ?? _filter1;
+      if (await secureStorage.read(key: 'ff_machineDownJson') != null) {
+        try {
+          _machineDownJson = jsonDecode(
+              await secureStorage.getString('ff_machineDownJson') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
     });
     await _safeInitAsync(() async {
-      _filter2 = await secureStorage.getBool('ff_filter2') ?? _filter2;
+      if (await secureStorage.read(key: 'ff_transactionDipJson') != null) {
+        try {
+          _transactionDipJson = jsonDecode(
+              await secureStorage.getString('ff_transactionDipJson') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
     });
     await _safeInitAsync(() async {
-      _filter3 = await secureStorage.getBool('ff_filter3') ?? _filter3;
+      if (await secureStorage.read(key: 'ff_LastUpdatedBankDataJson') != null) {
+        try {
+          _LastUpdatedBankDataJson = jsonDecode(
+              await secureStorage.getString('ff_LastUpdatedBankDataJson') ??
+                  '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
     });
     await _safeInitAsync(() async {
-      _filter4 = await secureStorage.getBool('ff_filter4') ?? _filter4;
+      if (await secureStorage.read(key: 'ff_allMachineDetails') != null) {
+        try {
+          _allMachineDetails = jsonDecode(
+              await secureStorage.getString('ff_allMachineDetails') ?? '');
+        } catch (e) {
+          print("Can't decode persisted json. Error: $e.");
+        }
+      }
     });
     await _safeInitAsync(() async {
-      _filter5 = await secureStorage.getBool('ff_filter5') ?? _filter5;
+      _searchValue1 =
+          await secureStorage.getString('ff_searchValue1') ?? _searchValue1;
     });
     await _safeInitAsync(() async {
-      _filter1value =
-          await secureStorage.getString('ff_filter1value') ?? _filter1value;
+      _searchValue2 =
+          await secureStorage.getString('ff_searchValue2') ?? _searchValue2;
     });
     await _safeInitAsync(() async {
-      _filter2value =
-          await secureStorage.getString('ff_filter2value') ?? _filter2value;
+      _searchValue3 =
+          await secureStorage.getString('ff_searchValue3') ?? _searchValue3;
     });
     await _safeInitAsync(() async {
-      _filter3value =
-          await secureStorage.getString('ff_filter3value') ?? _filter3value;
+      _sortByFilter =
+          await secureStorage.getString('ff_sortByFilter') ?? _sortByFilter;
     });
     await _safeInitAsync(() async {
-      _filter4value =
-          await secureStorage.getString('ff_filter4value') ?? _filter4value;
+      _gradeFilter =
+          await secureStorage.getString('ff_gradeFilter') ?? _gradeFilter;
     });
     await _safeInitAsync(() async {
-      _filter5value =
-          await secureStorage.getString('ff_filter5value') ?? _filter5value;
+      _reasonFilter =
+          await secureStorage.getString('ff_reasonFilter') ?? _reasonFilter;
     });
     await _safeInitAsync(() async {
-      _machineDownATMFilter =
-          await secureStorage.getString('ff_machineDownATMFilter') ??
-              _machineDownATMFilter;
+      _transactionTrendFilter =
+          await secureStorage.getString('ff_transactionTrendFilter') ??
+              _transactionTrendFilter;
+    });
+    await _safeInitAsync(() async {
+      _uptimeTrendFilter =
+          await secureStorage.getString('ff_uptimeTrendFilter') ??
+              _uptimeTrendFilter;
+    });
+    await _safeInitAsync(() async {
+      _downTimeFilter =
+          await secureStorage.getString('ff_downTimeFilter') ?? _downTimeFilter;
+    });
+    await _safeInitAsync(() async {
+      _bankFilter =
+          await secureStorage.getString('ff_bankFilter') ?? _bankFilter;
+    });
+    await _safeInitAsync(() async {
+      _locationFilter =
+          await secureStorage.getString('ff_locationFilter') ?? _locationFilter;
+    });
+    await _safeInitAsync(() async {
+      _sortByFilterTab =
+          await secureStorage.getBool('ff_sortByFilterTab') ?? _sortByFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _reasonFilterTab =
+          await secureStorage.getBool('ff_reasonFilterTab') ?? _reasonFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _gradeFilterTab =
+          await secureStorage.getBool('ff_gradeFilterTab') ?? _gradeFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _uptimeTrendFilterTab =
+          await secureStorage.getBool('ff_uptimeTrendFilterTab') ??
+              _uptimeTrendFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _transactionTrendFilterTab =
+          await secureStorage.getBool('ff_transactionTrendFilterTab') ??
+              _transactionTrendFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _downTimeFilterTab =
+          await secureStorage.getBool('ff_downTimeFilterTab') ??
+              _downTimeFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _bankFilterTab =
+          await secureStorage.getBool('ff_bankFilterTab') ?? _bankFilterTab;
+    });
+    await _safeInitAsync(() async {
+      _locationFilterTab =
+          await secureStorage.getBool('ff_locationFilterTab') ??
+              _locationFilterTab;
     });
   }
 
@@ -214,125 +298,257 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_targetIncState');
   }
 
-  bool _filter1 = false;
-  bool get filter1 => _filter1;
-  set filter1(bool _value) {
-    _filter1 = _value;
-    secureStorage.setBool('ff_filter1', _value);
+  dynamic _machineDownJson;
+  dynamic get machineDownJson => _machineDownJson;
+  set machineDownJson(dynamic _value) {
+    _machineDownJson = _value;
+    secureStorage.setString('ff_machineDownJson', jsonEncode(_value));
   }
 
-  void deleteFilter1() {
-    secureStorage.delete(key: 'ff_filter1');
+  void deleteMachineDownJson() {
+    secureStorage.delete(key: 'ff_machineDownJson');
   }
 
-  bool _filter2 = false;
-  bool get filter2 => _filter2;
-  set filter2(bool _value) {
-    _filter2 = _value;
-    secureStorage.setBool('ff_filter2', _value);
+  dynamic _transactionDipJson;
+  dynamic get transactionDipJson => _transactionDipJson;
+  set transactionDipJson(dynamic _value) {
+    _transactionDipJson = _value;
+    secureStorage.setString('ff_transactionDipJson', jsonEncode(_value));
   }
 
-  void deleteFilter2() {
-    secureStorage.delete(key: 'ff_filter2');
+  void deleteTransactionDipJson() {
+    secureStorage.delete(key: 'ff_transactionDipJson');
   }
 
-  bool _filter3 = false;
-  bool get filter3 => _filter3;
-  set filter3(bool _value) {
-    _filter3 = _value;
-    secureStorage.setBool('ff_filter3', _value);
+  dynamic _LastUpdatedBankDataJson;
+  dynamic get LastUpdatedBankDataJson => _LastUpdatedBankDataJson;
+  set LastUpdatedBankDataJson(dynamic _value) {
+    _LastUpdatedBankDataJson = _value;
+    secureStorage.setString('ff_LastUpdatedBankDataJson', jsonEncode(_value));
   }
 
-  void deleteFilter3() {
-    secureStorage.delete(key: 'ff_filter3');
+  void deleteLastUpdatedBankDataJson() {
+    secureStorage.delete(key: 'ff_LastUpdatedBankDataJson');
   }
 
-  bool _filter4 = false;
-  bool get filter4 => _filter4;
-  set filter4(bool _value) {
-    _filter4 = _value;
-    secureStorage.setBool('ff_filter4', _value);
+  dynamic _allMachineDetails;
+  dynamic get allMachineDetails => _allMachineDetails;
+  set allMachineDetails(dynamic _value) {
+    _allMachineDetails = _value;
+    secureStorage.setString('ff_allMachineDetails', jsonEncode(_value));
   }
 
-  void deleteFilter4() {
-    secureStorage.delete(key: 'ff_filter4');
+  void deleteAllMachineDetails() {
+    secureStorage.delete(key: 'ff_allMachineDetails');
   }
 
-  bool _filter5 = false;
-  bool get filter5 => _filter5;
-  set filter5(bool _value) {
-    _filter5 = _value;
-    secureStorage.setBool('ff_filter5', _value);
+  String _searchValue1 = '';
+  String get searchValue1 => _searchValue1;
+  set searchValue1(String _value) {
+    _searchValue1 = _value;
+    secureStorage.setString('ff_searchValue1', _value);
   }
 
-  void deleteFilter5() {
-    secureStorage.delete(key: 'ff_filter5');
+  void deleteSearchValue1() {
+    secureStorage.delete(key: 'ff_searchValue1');
   }
 
-  String _filter1value = '';
-  String get filter1value => _filter1value;
-  set filter1value(String _value) {
-    _filter1value = _value;
-    secureStorage.setString('ff_filter1value', _value);
+  String _searchValue2 = '';
+  String get searchValue2 => _searchValue2;
+  set searchValue2(String _value) {
+    _searchValue2 = _value;
+    secureStorage.setString('ff_searchValue2', _value);
   }
 
-  void deleteFilter1value() {
-    secureStorage.delete(key: 'ff_filter1value');
+  void deleteSearchValue2() {
+    secureStorage.delete(key: 'ff_searchValue2');
   }
 
-  String _filter2value = '';
-  String get filter2value => _filter2value;
-  set filter2value(String _value) {
-    _filter2value = _value;
-    secureStorage.setString('ff_filter2value', _value);
+  String _searchValue3 = '';
+  String get searchValue3 => _searchValue3;
+  set searchValue3(String _value) {
+    _searchValue3 = _value;
+    secureStorage.setString('ff_searchValue3', _value);
   }
 
-  void deleteFilter2value() {
-    secureStorage.delete(key: 'ff_filter2value');
+  void deleteSearchValue3() {
+    secureStorage.delete(key: 'ff_searchValue3');
   }
 
-  String _filter3value = '';
-  String get filter3value => _filter3value;
-  set filter3value(String _value) {
-    _filter3value = _value;
-    secureStorage.setString('ff_filter3value', _value);
+  String _sortByFilter = '';
+  String get sortByFilter => _sortByFilter;
+  set sortByFilter(String _value) {
+    _sortByFilter = _value;
+    secureStorage.setString('ff_sortByFilter', _value);
   }
 
-  void deleteFilter3value() {
-    secureStorage.delete(key: 'ff_filter3value');
+  void deleteSortByFilter() {
+    secureStorage.delete(key: 'ff_sortByFilter');
   }
 
-  String _filter4value = '';
-  String get filter4value => _filter4value;
-  set filter4value(String _value) {
-    _filter4value = _value;
-    secureStorage.setString('ff_filter4value', _value);
+  String _gradeFilter = '';
+  String get gradeFilter => _gradeFilter;
+  set gradeFilter(String _value) {
+    _gradeFilter = _value;
+    secureStorage.setString('ff_gradeFilter', _value);
   }
 
-  void deleteFilter4value() {
-    secureStorage.delete(key: 'ff_filter4value');
+  void deleteGradeFilter() {
+    secureStorage.delete(key: 'ff_gradeFilter');
   }
 
-  String _filter5value = '';
-  String get filter5value => _filter5value;
-  set filter5value(String _value) {
-    _filter5value = _value;
-    secureStorage.setString('ff_filter5value', _value);
+  String _reasonFilter = '';
+  String get reasonFilter => _reasonFilter;
+  set reasonFilter(String _value) {
+    _reasonFilter = _value;
+    secureStorage.setString('ff_reasonFilter', _value);
   }
 
-  void deleteFilter5value() {
-    secureStorage.delete(key: 'ff_filter5value');
+  void deleteReasonFilter() {
+    secureStorage.delete(key: 'ff_reasonFilter');
   }
 
-  String _machineDownATMFilter = '';
-  String get machineDownATMFilter => _machineDownATMFilter;
-  set machineDownATMFilter(String _value) {
-    _machineDownATMFilter = _value;
-    secureStorage.setString('ff_machineDownATMFilter', _value);
+  String _transactionTrendFilter = '';
+  String get transactionTrendFilter => _transactionTrendFilter;
+  set transactionTrendFilter(String _value) {
+    _transactionTrendFilter = _value;
+    secureStorage.setString('ff_transactionTrendFilter', _value);
   }
 
-  void deleteMachineDownATMFilter() {
-    secureStorage.delete(key: 'ff_machineDownATMFilter');
+  void deleteTransactionTrendFilter() {
+    secureStorage.delete(key: 'ff_transactionTrendFilter');
+  }
+
+  String _uptimeTrendFilter = '';
+  String get uptimeTrendFilter => _uptimeTrendFilter;
+  set uptimeTrendFilter(String _value) {
+    _uptimeTrendFilter = _value;
+    secureStorage.setString('ff_uptimeTrendFilter', _value);
+  }
+
+  void deleteUptimeTrendFilter() {
+    secureStorage.delete(key: 'ff_uptimeTrendFilter');
+  }
+
+  String _downTimeFilter = '';
+  String get downTimeFilter => _downTimeFilter;
+  set downTimeFilter(String _value) {
+    _downTimeFilter = _value;
+    secureStorage.setString('ff_downTimeFilter', _value);
+  }
+
+  void deleteDownTimeFilter() {
+    secureStorage.delete(key: 'ff_downTimeFilter');
+  }
+
+  String _bankFilter = '';
+  String get bankFilter => _bankFilter;
+  set bankFilter(String _value) {
+    _bankFilter = _value;
+    secureStorage.setString('ff_bankFilter', _value);
+  }
+
+  void deleteBankFilter() {
+    secureStorage.delete(key: 'ff_bankFilter');
+  }
+
+  String _locationFilter = '';
+  String get locationFilter => _locationFilter;
+  set locationFilter(String _value) {
+    _locationFilter = _value;
+    secureStorage.setString('ff_locationFilter', _value);
+  }
+
+  void deleteLocationFilter() {
+    secureStorage.delete(key: 'ff_locationFilter');
+  }
+
+  bool _sortByFilterTab = false;
+  bool get sortByFilterTab => _sortByFilterTab;
+  set sortByFilterTab(bool _value) {
+    _sortByFilterTab = _value;
+    secureStorage.setBool('ff_sortByFilterTab', _value);
+  }
+
+  void deleteSortByFilterTab() {
+    secureStorage.delete(key: 'ff_sortByFilterTab');
+  }
+
+  bool _reasonFilterTab = false;
+  bool get reasonFilterTab => _reasonFilterTab;
+  set reasonFilterTab(bool _value) {
+    _reasonFilterTab = _value;
+    secureStorage.setBool('ff_reasonFilterTab', _value);
+  }
+
+  void deleteReasonFilterTab() {
+    secureStorage.delete(key: 'ff_reasonFilterTab');
+  }
+
+  bool _gradeFilterTab = false;
+  bool get gradeFilterTab => _gradeFilterTab;
+  set gradeFilterTab(bool _value) {
+    _gradeFilterTab = _value;
+    secureStorage.setBool('ff_gradeFilterTab', _value);
+  }
+
+  void deleteGradeFilterTab() {
+    secureStorage.delete(key: 'ff_gradeFilterTab');
+  }
+
+  bool _uptimeTrendFilterTab = false;
+  bool get uptimeTrendFilterTab => _uptimeTrendFilterTab;
+  set uptimeTrendFilterTab(bool _value) {
+    _uptimeTrendFilterTab = _value;
+    secureStorage.setBool('ff_uptimeTrendFilterTab', _value);
+  }
+
+  void deleteUptimeTrendFilterTab() {
+    secureStorage.delete(key: 'ff_uptimeTrendFilterTab');
+  }
+
+  bool _transactionTrendFilterTab = false;
+  bool get transactionTrendFilterTab => _transactionTrendFilterTab;
+  set transactionTrendFilterTab(bool _value) {
+    _transactionTrendFilterTab = _value;
+    secureStorage.setBool('ff_transactionTrendFilterTab', _value);
+  }
+
+  void deleteTransactionTrendFilterTab() {
+    secureStorage.delete(key: 'ff_transactionTrendFilterTab');
+  }
+
+  bool _downTimeFilterTab = false;
+  bool get downTimeFilterTab => _downTimeFilterTab;
+  set downTimeFilterTab(bool _value) {
+    _downTimeFilterTab = _value;
+    secureStorage.setBool('ff_downTimeFilterTab', _value);
+  }
+
+  void deleteDownTimeFilterTab() {
+    secureStorage.delete(key: 'ff_downTimeFilterTab');
+  }
+
+  bool _bankFilterTab = false;
+  bool get bankFilterTab => _bankFilterTab;
+  set bankFilterTab(bool _value) {
+    _bankFilterTab = _value;
+    secureStorage.setBool('ff_bankFilterTab', _value);
+  }
+
+  void deleteBankFilterTab() {
+    secureStorage.delete(key: 'ff_bankFilterTab');
+  }
+
+  bool _locationFilterTab = false;
+  bool get locationFilterTab => _locationFilterTab;
+  set locationFilterTab(bool _value) {
+    _locationFilterTab = _value;
+    secureStorage.setBool('ff_locationFilterTab', _value);
+  }
+
+  void deleteLocationFilterTab() {
+    secureStorage.delete(key: 'ff_locationFilterTab');
   }
 }
 
