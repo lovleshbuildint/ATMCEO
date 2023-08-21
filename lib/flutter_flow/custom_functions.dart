@@ -17,7 +17,7 @@ dynamic newCustomFunction(String? userDatastr) {
   return null;
 }
 
-Color? newCustomFunction2(int? transactionTrendInt) {
+Color? colorChange(int? transactionTrendInt) {
   // return color #B1000E if transactionTrendInt is less then 0 else return #3AB100
   if (transactionTrendInt != null && transactionTrendInt < 0) {
     return Color(0xFFB1000E);
@@ -30,11 +30,13 @@ dynamic filter(
   dynamic mainData,
   String? searchValue,
   String? transactionTrendFilter,
+  String? gradeFilter,
 ) {
   if (searchValue == null || searchValue.isEmpty) {
-    if (transactionTrendFilter != null) {
+    if (transactionTrendFilter != null || gradeFilter != null) {
       List<dynamic> filteredData1 = [];
-      if (transactionTrendFilter.startsWith('-(') &&
+      if (transactionTrendFilter != null &&
+          transactionTrendFilter.startsWith('-(') &&
           transactionTrendFilter.endsWith(')')) {
         var range = transactionTrendFilter.substring(
             2, transactionTrendFilter.length - 1);
@@ -51,8 +53,8 @@ dynamic filter(
             filteredData1.add(data);
           }
         }
-        return {'userId': mainData['userId'], 'data': filteredData1};
-      } else if (transactionTrendFilter.startsWith('(') &&
+      } else if (transactionTrendFilter != null &&
+          transactionTrendFilter.startsWith('(') &&
           transactionTrendFilter.endsWith(')')) {
         var range = transactionTrendFilter.substring(
             1, transactionTrendFilter.length - 1);
@@ -67,8 +69,16 @@ dynamic filter(
             filteredData1.add(data);
           }
         }
-        return {'userId': mainData['userId'], 'data': filteredData1};
       }
+
+      if (gradeFilter != null) {
+        for (dynamic data in mainData['data']) {
+          if (data['grade'].contains(gradeFilter)) {
+            filteredData1.add(data);
+          }
+        }
+      }
+      return {'userId': mainData['userId'], 'data': filteredData1};
     } else {
       return mainData;
     }
@@ -85,22 +95,25 @@ dynamic filter(
   return {'userId': mainData['userId'], 'data': filteredData};
 }
 
-dynamic searchFilter(
+dynamic getCommon(
   dynamic mainData,
-  String? searchValue,
+  String? category,
 ) {
-  // {"userId":"bhu","data":[{"atmId":"DP","r":"1"},{"atmId":"MPZ","r":"1"}]} search atmID
-  if (searchValue == null || searchValue.isEmpty) {
-    return mainData;
-  }
+  // Map<String, dynamic> jsonDataMap = json.decode(mainData);
+  // List<dynamic> dataList = jsonDataMap['data'];
 
-  List<dynamic> filteredData = [];
+  List<dynamic> commonAtmIdList = [];
+  List<dynamic> seenAtmIds = [];
+  List<dynamic> finalData = [];
 
   for (dynamic data in mainData['data']) {
-    if (data['atmId'].contains(searchValue)) {
-      filteredData.add(data);
+    if (seenAtmIds.contains(data[category])) {
+      commonAtmIdList.add(data[category]);
+    } else {
+      seenAtmIds.add(data[category]);
+      finalData.add(data);
     }
   }
 
-  return {'userId': mainData['userId'], 'data': filteredData};
+  return {'userId': mainData['userId'], 'data': finalData};
 }

@@ -117,8 +117,6 @@ class _FrstscreenWidgetState extends State<FrstscreenWidget> {
                       (_model.tokenResponse?.jsonBody ?? ''),
                       r'''$.data''',
                     ).toString();
-                    FFAppState().deleteLastUpdatedBankDataJson();
-                    FFAppState().LastUpdatedBankDataJson = null;
                   });
 
                   context.pushNamed('MainScreen');

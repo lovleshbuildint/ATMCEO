@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,12 @@ import 'transaction_dip_model.dart';
 export 'transaction_dip_model.dart';
 
 class TransactionDipWidget extends StatefulWidget {
-  const TransactionDipWidget({Key? key}) : super(key: key);
+  const TransactionDipWidget({
+    Key? key,
+    required this.tabBar,
+  }) : super(key: key);
+
+  final int? tabBar;
 
   @override
   _TransactionDipWidgetState createState() => _TransactionDipWidgetState();
@@ -418,12 +424,24 @@ class _TransactionDipWidgetState extends State<TransactionDipWidget> {
                                         'Downtime: Low to High'
                                       ];
                                     } else if (FFAppState().gradeFilterTab) {
-                                      return [
-                                        'Gold',
-                                        'Silver',
-                                        'Bronze',
-                                        'Platinum'
-                                      ];
+                                      return (widget.tabBar == 0
+                                          ? (getJsonField(
+                                              functions.getCommon(
+                                                  FFAppState().machineDownJson,
+                                                  'grade'),
+                                              r'''$..grade''',
+                                            ) as List)
+                                              .map<String>((s) => s.toString())
+                                              .toList()!
+                                          : (getJsonField(
+                                              functions.getCommon(
+                                                  FFAppState()
+                                                      .transactionDipJson,
+                                                  'grade'),
+                                              r'''$..grade''',
+                                            ) as List)
+                                              .map<String>((s) => s.toString())
+                                              .toList()!);
                                     } else if (FFAppState()
                                         .transactionTrendFilterTab) {
                                       return [
@@ -601,7 +619,11 @@ class _TransactionDipWidgetState extends State<TransactionDipWidget> {
                             style: FlutterFlowTheme.of(context).bodyMedium,
                           ),
                           Text(
-                            'Changes Done................',
+                            getJsonField(
+                              functions.getCommon(
+                                  FFAppState().machineDownJson, 'grade'),
+                              r'''$..grade''',
+                            ).toString(),
                             style: FlutterFlowTheme.of(context).bodyMedium,
                           ),
                           Text(

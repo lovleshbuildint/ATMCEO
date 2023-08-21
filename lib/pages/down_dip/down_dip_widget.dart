@@ -453,7 +453,9 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                               .viewInsetsOf(
                                                                   context),
                                                           child:
-                                                              TransactionDipWidget(),
+                                                              TransactionDipWidget(
+                                                            tabBar: 0,
+                                                          ),
                                                         ),
                                                       );
                                                     },
@@ -1053,13 +1055,20 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                   builder: (context) {
                                                     final dipData =
                                                         getJsonField(
-                                                      functions.filter(
-                                                          FFAppState()
-                                                              .machineDownJson,
-                                                          FFAppState()
-                                                              .searchValue1,
-                                                          FFAppState()
-                                                              .transactionTrendFilter),
+                                                      functions.getCommon(
+                                                          getJsonField(
+                                                            functions.filter(
+                                                                FFAppState()
+                                                                    .machineDownJson,
+                                                                FFAppState()
+                                                                    .searchValue1,
+                                                                FFAppState()
+                                                                    .transactionTrendFilter,
+                                                                FFAppState()
+                                                                    .gradeFilter),
+                                                            r'''$''',
+                                                          ),
+                                                          'atmId'),
                                                       r'''$.data''',
                                                     ).toList();
                                                     return DataTable2(
@@ -1766,7 +1775,7 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                                                 textAlign: TextAlign.center,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: functions.newCustomFunction2(getJsonField(
+                                                                                      color: functions.colorChange(getJsonField(
                                                                                         dipDataItem,
                                                                                         r'''$..transactionTrend''',
                                                                                       )),
@@ -1787,7 +1796,7 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                                                 textAlign: TextAlign.center,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: functions.newCustomFunction2(getJsonField(
+                                                                                      color: functions.colorChange(getJsonField(
                                                                                         dipDataItem,
                                                                                         r'''$..uptimeTrend''',
                                                                                       )),
@@ -1808,7 +1817,7 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                                                 textAlign: TextAlign.center,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: functions.newCustomFunction2(getJsonField(
+                                                                                      color: functions.colorChange(getJsonField(
                                                                                         dipDataItem,
                                                                                         r'''$..uptimeTrend''',
                                                                                       )),
@@ -1947,7 +1956,9 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                               .viewInsetsOf(
                                                                   context),
                                                           child:
-                                                              TransactionDipWidget(),
+                                                              TransactionDipWidget(
+                                                            tabBar: 1,
+                                                          ),
                                                         ),
                                                       );
                                                     },
@@ -2134,13 +2145,20 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                   builder: (context) {
                                                     final dipData =
                                                         getJsonField(
-                                                      functions.filter(
-                                                          FFAppState()
-                                                              .transactionDipJson,
-                                                          FFAppState()
-                                                              .searchValue1,
-                                                          FFAppState()
-                                                              .transactionTrendFilter),
+                                                      functions.getCommon(
+                                                          getJsonField(
+                                                            functions.filter(
+                                                                FFAppState()
+                                                                    .transactionDipJson,
+                                                                FFAppState()
+                                                                    .searchValue1,
+                                                                FFAppState()
+                                                                    .transactionTrendFilter,
+                                                                FFAppState()
+                                                                    .gradeFilter),
+                                                            r'''$''',
+                                                          ),
+                                                          'atmId'),
                                                       r'''$.data''',
                                                     ).toList();
                                                     return DataTable2(
@@ -2734,7 +2752,7 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                                                 textAlign: TextAlign.center,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: functions.newCustomFunction2(getJsonField(
+                                                                                      color: functions.colorChange(getJsonField(
                                                                                         dipDataItem,
                                                                                         r'''$..transactionTrend''',
                                                                                       )),
@@ -2755,7 +2773,7 @@ class _DownDipWidgetState extends State<DownDipWidget>
                                                                                 textAlign: TextAlign.center,
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                                      color: functions.newCustomFunction2(getJsonField(
+                                                                                      color: functions.colorChange(getJsonField(
                                                                                         dipDataItem,
                                                                                         r'''$..uptimeTrend''',
                                                                                       )),

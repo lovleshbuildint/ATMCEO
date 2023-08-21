@@ -47,7 +47,7 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
       future: ATMDetailsCall.call(
         userId: FFAppState().userId,
         token: FFAppState().token,
-        atmId: FFAppState().atmId,
+        atmId: widget.atmId,
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -1309,9 +1309,10 @@ class _ATMdetailsWidgetState extends State<ATMdetailsWidget> {
                                 8.0, 15.0, 20.0, 10.0),
                             child: Builder(
                               builder: (context) {
-                                final latestBankData = FFAppState()
-                                    .LastUpdatedBankDataJson
-                                    .toList();
+                                final latestBankData = getJsonField(
+                                  FFAppState().LastUpdatedBankDataJson,
+                                  r'''$.data''',
+                                ).toList();
                                 return ListView.builder(
                                   padding: EdgeInsets.zero,
                                   scrollDirection: Axis.vertical,

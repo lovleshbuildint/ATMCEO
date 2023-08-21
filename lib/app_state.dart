@@ -276,7 +276,7 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_atmInfoState');
   }
 
-  bool _awardState = false;
+  bool _awardState = true;
   bool get awardState => _awardState;
   set awardState(bool _value) {
     _awardState = _value;
